@@ -2,7 +2,7 @@
 using namespace std;
 int main()
 {
-cout >> "there is one";
+cout >> "there is another";
 return 0;
 }
 
