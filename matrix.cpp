@@ -36,10 +36,10 @@ matrix::matrix (int sizex, int sizey, string id = "unknown")
     this->sizex = sizex;
     this->sizey = sizey;
 
-    double** data = new double*[sizex];
-      for (int i=0; i<sizex; i++) {
-       data[i] = new double [sizey];
-      }
+   data = new double* [sizex];
+    for (int i=0; i<sizex; i++){
+        data[i]= new double [sizey];
+    }
 
     for(int i=0; i<sizex; i++){
         for(int j=0; j<sizey; j++){
@@ -65,8 +65,8 @@ int main()
    matrix A(2,3,"first array");
    matrix B(4,4,"second array");
 
-   A.printing();
    B.printing();
+   A.printing();
 
     return 0;
 }
