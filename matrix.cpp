@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+
 class matrix{
 private:
    int sizex;
@@ -11,24 +12,81 @@ private:
 
 public:
    matrix(int sizex, int sizey, string id);
-   void printing();
-   void set_id(string id);
+   void print_matrix();
+   void set_id_matrix(string id);
+   int get_sizex();
+   int get_sizey();
+   double** get_data(); 
+   void fill_matrix();
 
-
-  /* matrix* operator+ (matrix B){
-
-   return C;
-   };*/
-
-
-   ~matrix()
-   {
+   ~matrix(){
       for(int i=0; i<sizex; i++){
           delete [](data[i]);
       }
     delete [](data);
    }
 };
+
+
+class vector_2d{
+private:   
+   int size;
+   string id;
+   double* data;
+
+public:
+   vector_2d(int size, string id);
+   void print_vector();
+   void set_id_vector(string id);
+   int get_size();
+   void fill_vector();
+   double* get_data();
+
+   friend class matrix;
+   friend vector_2d& operator+(vector_2d v1);
+   
+  /* ~vector_2d(){
+       delete [](data);
+   }*/
+
+};
+
+vector_2d::vector_2d (int size, string id = "unknown"){
+  this -> size = size;
+  this -> id = id;
+
+  data = new double [size];
+  for (int i=0; i<size; i++){
+      data[i] = 0;
+  }
+}
+
+void vector_2d:: fill_vector(){
+    for(int i=0; i<size; i++){
+      data[i] = 2*i;
+    }
+}
+
+int vector_2d:: get_size(){
+   return size;
+}
+
+double* vector_2d:: get_data(){
+    return data;
+};
+
+void vector_2d:: set_id_vector(string id){
+    this->id = id;
+}
+
+void vector_2d:: print_vector(){
+   cout << id << " " << size << endl;
+   for (int i=0; i<size; i++){
+       cout << data[i] << endl;
+   }
+}
+
+
 
 matrix::matrix (int sizex, int sizey, string id = "unknown")
 {
@@ -43,12 +101,12 @@ matrix::matrix (int sizex, int sizey, string id = "unknown")
 
     for(int i=0; i<sizex; i++){
         for(int j=0; j<sizey; j++){
-            data[i][j] = i+j;
+            data[i][j] = 0;
         }
     }
 };
 
-void matrix:: printing()
+void matrix:: print_matrix()
 {
     cout << id <<" "<< endl;
     for(int i=0; i< sizex; i++){
@@ -59,14 +117,96 @@ void matrix:: printing()
     }
 };
 
+int matrix:: get_sizex(){
+    return sizex;
+}
+
+int matrix:: get_sizey(){
+    return sizey;
+}
+
+double** matrix:: get_data(){
+    return data;
+}
+
+void matrix:: fill_matrix(){
+    for(int i=0; i<sizex; i++){
+       for(int j=0; j<sizey; j++){
+           data[i][j] = i+j;
+       }
+    }
+}
+
+void matrix:: set_id_matrix(string id){
+    this-> id = id;
+}
+
+vector_2d operator+ (vector_2d v1, vector_2d v2){
+    
+
+    if(v1.get_size() != v2.get_size()){
+        cout<< "Error, different sizes of vectors";
+        exit(0);
+    }
+
+    vector_2d result = v1;
+
+    for(int i=0; i < v1.get_size(); i++){
+       result.get_data()[i] += v2.get_data()[i];
+    }
+
+    return result;
+}
+
+
+vector_2d multiply(matrix m, vector_2d v)
+{
+    if (m.get_sizey() != v.get_size())
+    {
+        cout<< "Error, different sizes";
+        exit(0);
+    }
+
+    vector_2d result (v.get_size());
+
+    for(int i=0; i<m.get_sizex(); i++){
+       for(int j=0; j<m.get_sizey(); j++){
+           result.get_data()[i] += m.get_data()[i][j]* v.get_data()[j];
+       }
+    }
+return result;
+}
+
+
+
+
 
 int main()
 {
-   matrix A(2,3,"first array");
+   matrix A(4,4,"first array");
    matrix B(4,4,"second array");
+   vector_2d v(4,"first vector");
+   vector_2d u(4,"second vector");
+   
+   A.fill_matrix();
+   B.fill_matrix();
 
-   B.printing();
-   A.printing();
+   v.fill_vector();
+   u.fill_vector();
 
+   B.print_matrix();
+   A.print_matrix();
+
+   v.print_vector();
+
+   vector_2d c = v+u;
+   c.set_id_vector("Summa");
+   c.print_vector();
+
+   vector_2d w(4);
+   w = multiply(A,v);
+   w.set_id_vector("multiplying result");
+
+   w.print_vector();   
     return 0;
 }
