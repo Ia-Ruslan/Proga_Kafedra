@@ -41,14 +41,15 @@ public:
    int get_size();
    void fill_vector();
    double* get_data();
+   //void set_data(int i, double x);
 
    friend class matrix;
    friend vector_2d& operator+(vector_2d v1);
-   
-  /* ~vector_2d(){
+   void multiply(matrix& m, vector_2d v);
+ 
+   /*~vector_2d(){
        delete [](data);
    }*/
-
 };
 
 vector_2d::vector_2d (int size, string id = "unknown"){
@@ -63,7 +64,7 @@ vector_2d::vector_2d (int size, string id = "unknown"){
 
 void vector_2d:: fill_vector(){
     for(int i=0; i<size; i++){
-      data[i] = 2*i;
+      data[i] = 1;
     }
 }
 
@@ -80,12 +81,15 @@ void vector_2d:: set_id_vector(string id){
 }
 
 void vector_2d:: print_vector(){
-   cout << id << " " << size << endl;
+   cout << id << " " << "size = " << size << endl;
    for (int i=0; i<size; i++){
        cout << data[i] << endl;
    }
 }
 
+/*void vector_2d:: set_data(int i, double x){
+    data[i] = x;
+}*/
 
 
 matrix::matrix (int sizex, int sizey, string id = "unknown")
@@ -109,6 +113,7 @@ matrix::matrix (int sizex, int sizey, string id = "unknown")
 void matrix:: print_matrix()
 {
     cout << id <<" "<< endl;
+    cout << "sizex = " << sizex << "   " << "sizey = " << sizey << endl; 
     for(int i=0; i< sizex; i++){
         for(int j=0; j< sizey; j++){
             cout << data[i][j] << " ";
@@ -132,7 +137,7 @@ double** matrix:: get_data(){
 void matrix:: fill_matrix(){
     for(int i=0; i<sizex; i++){
        for(int j=0; j<sizey; j++){
-           data[i][j] = i+j;
+           data[i][j] = 1;
        }
     }
 }
@@ -143,13 +148,12 @@ void matrix:: set_id_matrix(string id){
 
 vector_2d operator+ (vector_2d v1, vector_2d v2){
     
-
     if(v1.get_size() != v2.get_size()){
         cout<< "Error, different sizes of vectors";
         exit(0);
     }
 
-    vector_2d result = v1;
+    vector_2d result (v1.get_size());
 
     for(int i=0; i < v1.get_size(); i++){
        result.get_data()[i] += v2.get_data()[i];
@@ -159,7 +163,7 @@ vector_2d operator+ (vector_2d v1, vector_2d v2){
 }
 
 
-vector_2d multiply(matrix m, vector_2d v)
+void vector_2d:: multiply(matrix& m, vector_2d v)
 {
     if (m.get_sizey() != v.get_size())
     {
@@ -167,14 +171,18 @@ vector_2d multiply(matrix m, vector_2d v)
         exit(0);
     }
 
-    vector_2d result (v.get_size());
+    //vector_2d result (m.get_sizey());
 
     for(int i=0; i<m.get_sizex(); i++){
+       double res = 0; 
        for(int j=0; j<m.get_sizey(); j++){
-           result.get_data()[i] += m.get_data()[i][j]* v.get_data()[j];
+           res += m.get_data()[i][j]* v.get_data()[j];
+           //cout << " " << res;
        }
+       //cout << res << endl;
+       data[i] = res;
+       //cout << result.data[i] << endl;
     }
-return result;
 }
 
 
@@ -183,30 +191,24 @@ return result;
 
 int main()
 {
-   matrix A(4,4,"first array");
-   matrix B(4,4,"second array");
-   vector_2d v(4,"first vector");
-   vector_2d u(4,"second vector");
+   matrix A(4,6,"A");
+   vector_2d v(6,"first vector");
+   vector_2d u(6,"first vector");
    
-   A.fill_matrix();
-   B.fill_matrix();
-
+   A.fill_matrix();  
    v.fill_vector();
    u.fill_vector();
 
-   B.print_matrix();
    A.print_matrix();
-
    v.print_vector();
 
    vector_2d c = v+u;
    c.set_id_vector("Summa");
    c.print_vector();
 
-   vector_2d w(4);
-   w = multiply(A,v);
+   vector_2d w(A.get_sizex());
+   w.multiply(A,v);
    w.set_id_vector("multiplying result");
-
    w.print_vector();   
     return 0;
 }
