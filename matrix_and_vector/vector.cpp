@@ -1,5 +1,6 @@
 #include "vector.h"
 #include "matrix.h"
+
 using namespace std;
 
 vector_2d::vector_2d (int size, std::string id){
@@ -37,6 +38,12 @@ void vector_2d:: print_vector(){
    }
 }
 
+/*void vector_2d:: multiply_on_number(double a){
+   for(int i=0; i<size; i++){
+    data[i] = a * data[i];
+   }
+}*/
+
 
 void vector_2d:: multiply(matrix& m, vector_2d v)
 {
@@ -57,5 +64,11 @@ void vector_2d:: multiply(matrix& m, vector_2d v)
        //cout << res << endl;
        data[i] = res;
        //cout << result.data[i] << endl;
+    }
+}
+
+void vector_2d:: mult_on_double(vector_2d v, double a){
+    for(int i=0; i<size; i++){
+        v.data[i] = a* v.data[i];
     }
 }
