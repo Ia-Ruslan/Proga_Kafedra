@@ -45,9 +45,9 @@ void set_task(matrix A, vector_2d v){
 
 int main()
 {
-    matrix A(5, 5,"A");
-    vector_2d v_0(5, "first approximation");
-    vector_2d b (5,"b");
+    matrix A(3, 3,"A");
+    vector_2d v_0(3, "first approximation");
+    vector_2d b (3,"b");
 
     vector_2d x_next(v_0.get_size());
     vector_2d x_present = v_0;
@@ -56,8 +56,10 @@ int main()
     int n = 10;
     vector_2d x(v_0.get_size());
     
+    matrix E(3,3,"E");
 
-    while(n != 0){  //x_next = x_present + a(Ax_present - b)
+    while(n != 0){  //x_next = x_present + a(Ax_present - b) = (E - aA)x_present - ab
+
         x.multiply(A, x_present);
         x = x-b;
         x.mult_on_double(x, a);
