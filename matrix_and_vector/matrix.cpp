@@ -43,6 +43,27 @@ double** matrix:: get_data(){
     return data;
 }
 
+void matrix:: double_multiply(double a){
+    for(int i=0; i<sizex; i++){
+        for(int j=0; j<sizey; j++){
+            data[i][j] = a*data[i][j];
+        }
+    }
+}
+
+void set_E(){
+    for (int i=0; i<A.get_sizex(); i++){
+        for (int j=0; j<A.get_sizey(); j++){
+            if (i == j){
+                E.data[i][j] = 1;
+            }
+            else{
+                E.data[i][j]=0;
+            }
+        }
+    }
+}
+
 void matrix:: fill_matrix(){
     for(int i=0; i<sizex; i++){
        for(int j=0; j<sizey; j++){

@@ -22,6 +22,10 @@ public:
    int get_sizey();
    double** get_data();
    void fill_matrix();
+   void double_multiply(double a);
+   void set_E();
+
+   friend matrix& operator-(matrix A);
 
    ~matrix(){
       for(int i=0; i<sizex; i++){
