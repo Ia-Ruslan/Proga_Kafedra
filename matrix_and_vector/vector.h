@@ -24,8 +24,10 @@ public:
    int get_size();
    void fill_vector();
    double* get_data();
+   void set_vector();
+   void set_b();
 
-   void mult_on_double(vector_2d v, double a);
+   vector_2d mult_on_double(double a);
    //void multiply_on_number(double a);
    //void set_vector(int i, double x);
 

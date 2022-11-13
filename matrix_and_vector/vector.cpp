@@ -44,6 +44,17 @@ void vector_2d:: print_vector(){
    }
 }*/
 
+void vector_2d:: set_vector(){
+    for(int i=0; i<size; i++){
+        data[i] = 1;
+    }
+}
+
+void vector_2d:: set_b(){
+    for(int i=0; i<size; i++){
+        data[i] = 2 + i;
+    }
+}
 
 void vector_2d:: multiply(matrix& m, vector_2d v)
 {
@@ -67,8 +78,12 @@ void vector_2d:: multiply(matrix& m, vector_2d v)
     }
 }
 
-void vector_2d:: mult_on_double(vector_2d v, double a){
+vector_2d vector_2d:: mult_on_double(double a){
+    vector_2d v(size);
+
     for(int i=0; i<size; i++){
-        v.data[i] = a* v.data[i];
+        v.data[i] = a * data[i];
     }
+   
+   return v;
 }

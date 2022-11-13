@@ -23,9 +23,10 @@ public:
    double** get_data();
    void fill_matrix();
    void double_multiply(double a);
-   void set_E();
+   void set_A();
 
-   friend matrix& operator-(matrix A);
+   //friend matrix& operator-(matrix A);
+   //friend matrix& operator+(matrix A);
 
    ~matrix(){
       for(int i=0; i<sizex; i++){

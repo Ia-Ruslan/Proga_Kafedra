@@ -29,7 +29,7 @@ vector_2d operator- (vector_2d v1, vector_2d v2){
         exit(0);
     }
 
-    vector_2d result(v1.get_size(),"a");
+    vector_2d result = v1;
 
     for(int i=0; i < v1.get_size(); i++){
        result.get_data()[i] -= v2.get_data()[i];
@@ -38,8 +38,8 @@ vector_2d operator- (vector_2d v1, vector_2d v2){
     return result;
 }
 
-vector_2d operator- (matrix A, matrix B){
-    matrix result(A.get_sizex(), A.get_sizey());
+/*matrix operator- (matrix A, matrix B){
+    matrix result(A.get_sizex(), A.get_sizey(), "result");
     for (int i=0; i<A.get_sizex(); i++){
         for (int j=0; j<A.get_sizey(); j++){
             result[i][j] = A[i][j] - B[i][j];
@@ -47,9 +47,20 @@ vector_2d operator- (matrix A, matrix B){
     }
 
     return result;
-}
+}*/
 
-void set_E(matrix E){
+/*matrix operator+ (matrix A, matrix B){
+    matrix result(A.get_sizex(), A.get_sizey());
+    for (int i=0; i<A.get_sizex(); i++){
+        for (int j=0; j<A.get_sizey(); j++){
+            result[i][j] = A[i][j] + B[i][j];
+        }
+    }
+
+    return result;
+}*/
+
+/*void set_E(matrix E){
     for (int i=0; i<A.get_sizex(); i++){
         for (int j=0; j<A.get_sizey(); j++){
             if (i == j){
@@ -60,39 +71,63 @@ void set_E(matrix E){
             }
         }
     }
-}
+}*/
+
 
 
 int main()
 {
     matrix A(3, 3,"A");
-    vector_2d v_0(3, "first approximation");
+    vector_2d x_present(3, "starts with v_0");
     vector_2d b (3,"b");
 
-    vector_2d x_next(v_0.get_size());
-    vector_2d x_present = v_0;
+    x_present.set_vector();
+    x_present.print_vector();
+    cout <<endl;
+
+    A.set_A();
+    A.print_matrix();
+    cout <<endl;
+
+    b.set_b();
+    b.print_vector();
+    cout <<endl;
+
+    //vector_2d x_present = v_0;
+    vector_2d x_next(x_present.get_size());
    
     double a = 0.1;
-    int n = 10;
-    vector_2d x(v_0.get_size());
+    int n = 5;
+    vector_2d x(x_present.get_size());
     
-    matrix E(3,3,"E");
-    matrix Iter(A.get_sizex(), A.get_sizey(), "iteration matrix");
+   // matrix E(3,3,"E");
+   // E.set_E();
+   // matrix Iter(A.get_sizex(), A.get_sizey(), "iteration matrix");
 
-    Iter = E - A.double_multiply(a);
+    vector_2d xsi (x_present.get_size());
 
     while(n != 0){  //x_next = x_present + a(Ax_present - b) = (E - aA)x_present - ab
 
         x.multiply(A, x_present);
-        x = x-b;
-        x.mult_on_double(x, a);
+        x.print_vector();
+       
+        xsi = x - b;
+        xsi.set_id_vector("xsi ");
+        xsi.print_vector();
 
-        x_next = x_present + x;
-        
+        x_next = x_present + xsi.mult_on_double(a); 
+        x_next.set_id_vector(" interation ");
         x_next.print_vector();
+
         x_present = x_next;
         n--;
+        cout << endl << endl;
+
     }
+
+    x_present.set_id_vector("final result");
+    cout << endl;
+    x_present.print_vector();
 
 
     return 0;
