@@ -1,0 +1,13 @@
+#!/bin/bash
+
+a=1
+b=2
+
+res=$(bc << EOF
+   c=$a+$b
+   d=$a*$b
+   c*d+2
+   EOF
+   )
+   echo $res
+

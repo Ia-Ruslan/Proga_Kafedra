@@ -1,0 +1,13 @@
+#!/bin/bash 
+a="abc"
+let b=123
+
+while [$a == "abc"];do
+   echo +
+done
+for i in {1..10};do
+   echo $i
+done
+for i in {a,b,c,d};do
+   echo $
+done

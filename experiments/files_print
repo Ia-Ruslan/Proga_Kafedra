@@ -1,0 +1,6 @@
+#!/bin/bash
+
+files=`ls`
+for fn in $files;do
+   echo $fn
+done
