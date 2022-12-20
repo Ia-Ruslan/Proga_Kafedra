@@ -1,0 +1,16 @@
+class vect:
+     def__init__(self, id=None)
+         self.data=[]
+         self.n=0
+         self.id=id
+     def__str__(self):
+         return "[vector: id=%s]"%self.id
+     def set (self,id,data):
+         self.data=[float(x) for x in data]
+         self.n=len(data)
+         self.id=id
+
+if __name__ == "__main__":
+   v =vect()
+   v.set("myvect", [3,4,0])
+   print(v)  #print(str(v))

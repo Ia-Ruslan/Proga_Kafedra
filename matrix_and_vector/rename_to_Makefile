@@ -1,0 +1,17 @@
+EXEC=main.exe
+SRC=vector.cpp matrix.cpp main.cpp
+OBJ=$(SRC:.cpp=.o)
+.SUFFIXES:.o .cpp
+comp = g++
+
+all: ${EXEC}
+	@ echo "ok"
+
+clean:
+	@ rm *.o
+
+${EXEC}: ${OBJ}
+	${comp} -o ${EXEC} ${OBJ}
+
+.cpp.o:
+	${comp} -c $< -o $@

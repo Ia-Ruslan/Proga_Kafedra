@@ -1,0 +1,6 @@
+#!/bin/bash
+
+files='matrix.cpp vector.cpp'  
+for fn in $files;do
+   g++ -c $fn
+done   
